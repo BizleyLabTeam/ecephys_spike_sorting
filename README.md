@@ -44,7 +44,7 @@ ex:
 ```shell
 	$ mkdir code
 	$ cd code
-	$ git clone https://github.com/JulesLebert/ecephys_spike_sorting.git
+	$ git clone https://github.com/BizleyLabTeam/ecephys_spike_sorting.git
 ```
 
 Important: don't forget to downgrade setuptools after activating the environment to 59.8.0 
