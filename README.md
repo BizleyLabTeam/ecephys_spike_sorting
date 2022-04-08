@@ -21,7 +21,7 @@ https://www.rc.ucl.ac.uk/docs/Account_Services/
 Once you have your account, you can ssh into it by following these guidelines:
 https://www.rc.ucl.ac.uk/docs/Clusters/Myriad/
 
-I would also recommand using the [remote development tool for Visual Studio Code](#https://code.visualstudio.com/docs/remote/ssh) to edit your scripts directly in VS code. Basically, you just have to install the [Remote development](#https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) package in VS code and then remote in your myriad account through VS code.
+I would also recommand using the [remote development tool for Visual Studio Code](https://code.visualstudio.com/docs/remote/ssh) to edit your scripts directly in VS code. Basically, you just have to install the [Remote development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) package in VS code and then remote in your myriad account through VS code.
 
 ### Install ecephys spike sorting on your myriad
 
@@ -69,9 +69,9 @@ Install the matlab engine API for python in your environment by running:
 You shouldn't see any error message or warning. If you do, check your version of setuptools.
 
 ### Installing kilosort
-You should install [Kilosort](#https://github.com/MouseLand/Kilosort) same as usual (using git clone), except that the `mexGPUall.m` should be run in the no desktop version of matlab. To do this, run in your terminal `matlab -nodesktop`. Matlab should open in your terminal.
+You should install [Kilosort](https://github.com/MouseLand/Kilosort) same as usual (using git clone), except that the `mexGPUall.m` should be run in the no desktop version of matlab. To do this, run in your terminal `matlab -nodesktop`. Matlab should open in your terminal.
 
-Don't forget to also clone [npy-matlab](#https://github.com/kwikteam/npy-matlab) somewhere.
+Don't forget to also clone [npy-matlab](https://github.com/kwikteam/npy-matlab) somewhere.
 
 ### Installing CatGT, TPrime and C_Waves
 Same as usual:
