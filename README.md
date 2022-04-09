@@ -21,7 +21,7 @@ https://www.rc.ucl.ac.uk/docs/Account_Services/
 Once you have your account, you can ssh into it by following these guidelines:
 https://www.rc.ucl.ac.uk/docs/Clusters/Myriad/
 
-I would also recommand using the [remote development tool for Visual Studio Code](#https://code.visualstudio.com/docs/remote/ssh) to edit your scripts directly in VS code. Basically, you just have to install the [Remote development](#https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) package in VS code and then remote in your myriad account through VS code.
+I would also recommand using the [remote development tool for Visual Studio Code](https://code.visualstudio.com/docs/remote/ssh) to edit your scripts directly in VS code. Basically, you just have to install the [Remote development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) package in VS code and then remote in your myriad account through VS code.
 
 ### Install ecephys spike sorting on your myriad
 
@@ -36,7 +36,7 @@ And matlab by running
 	$ module load matlab/full/r2021a/9.10
 ```
 
-You might want to add these two lines to your .bashrc file to you don't have to run them each time you connect to your myriad.
+You might want to add these lines to your .bashrc file to you don't have to run them each time you connect to your myriad.
 
 Then, follow the guidelines under [Installation and Usage for the SpikeGLX pipeline](#installation) (install pipenv and install ecephys environment and code) using `git clone` to clone this repository
 
@@ -44,7 +44,7 @@ ex:
 ```shell
 	$ mkdir code
 	$ cd code
-	$ git clone https://github.com/JulesLebert/ecephys_spike_sorting.git
+	$ git clone https://github.com/BizleyLabTeam/ecephys_spike_sorting.git
 ```
 
 Important: don't forget to downgrade setuptools after activating the environment to 59.8.0 
@@ -58,7 +58,7 @@ ex:
 	$ mkdir builds/matlab_build
 ```
 
-Then locate your matlabroot file by typing `which matlab`. It should return something like matlabroot/bin/matlab
+Then locate your matlabroot directory by typing `which matlab`. It should return something like matlabroot/bin/matlab
 The following instructions assume that your matlabroot is: /shared/ucl/apps/Matlab/R2021a/full
 
 Install the matlab engine API for python in your environment by running:
@@ -69,9 +69,9 @@ Install the matlab engine API for python in your environment by running:
 You shouldn't see any error message or warning. If you do, check your version of setuptools.
 
 ### Installing kilosort
-You should install [Kilosort](#https://github.com/MouseLand/Kilosort) same as usual (using git clone), except that the `mexGPUall.m` should be run in the no desktop version of matlab. To do this, run in your terminal `matlab -nodesktop`. Matlab should open in your terminal.
+You should install [Kilosort](https://github.com/MouseLand/Kilosort) same as usual (using git clone), except that the `mexGPUall.m` should be run in the no desktop version of matlab. To do this, run in your terminal `matlab -nodesktop`. Matlab should open in your terminal.
 
-Don't forget to also clone [npy-matlab](#https://github.com/kwikteam/npy-matlab) somewhere.
+Don't forget to also clone [npy-matlab](https://github.com/kwikteam/npy-matlab) somewhere.
 
 ### Installing CatGT, TPrime and C_Waves
 Same as usual:
@@ -91,7 +91,7 @@ For each software, cd into the directory and run:
 ```shell
 	$ chmod +x install.sh
 	$ chmod +x runit.sh
-	bash install.sh
+	$ bash install.sh
 ```
 
 ### Run a job
