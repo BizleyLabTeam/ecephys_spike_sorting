@@ -45,7 +45,7 @@ logName = 'pipeline_log.csv'
 
 # Raw data directory = npx_directory
 # run_specs = name, gate, trigger and probes to process
-npx_directory = r'/home/skgtjml/tempData'
+npx_directory = r'/home/skgtjml/Scratch/tmpData'
 
 # Each run_spec is a list of 4 strings:
 #   undecorated run name (no g/t specifier, the run field in CatGT)
@@ -59,7 +59,13 @@ npx_directory = r'/home/skgtjml/tempData'
 
 run_specs = [									
 #						['SC024_092319_NP1.0_Midbrain', '0', '0,9', '0,1', ['cortex','cortex'] ]
-                        ['08_03_2022_triflei_1_AM', '0', 'start,end','0',['cortex']]
+                        ['040422_Trifle_AM', '0', 'start,end','0',['cortex']],
+                        ['040422_Trifle_PM', '0', 'start,end','0',['cortex']],
+                        ['050422_Trifle_AM', '0', 'start,end','0',['cortex']],
+                        ['050422_Trifle_PM', '0', 'start,end','0',['cortex']],
+                        ['060422_Trifle_AM', '0', 'start,end','0',['cortex']],
+                        ['060422_Trifle_PM', '0', 'start,end','0',['cortex']],
+                        ['080422_Trifle_AM4', '0', 'start,end','0',['cortex']]
 ]
 
 # ------------------
@@ -348,7 +354,12 @@ for spec in run_specs:
                  module_input_json[i],
                  logFullPath )
                  
-        
+        # Copy the nidq.bin file for sync pulse data
+        nidq_bin_file = f'{run_str}_t{prb}.nidq.bin'
+        source_nidq_bin = os.path.join(npx_directory,run_str,nidq_bin_file)
+        target_dir = os.path.join(catGT_dest,run_folder)
+        subprocess.call(['cp',source_nidq_bin,target_dir])
+
     if runTPrime:
         # after loop over probes, run TPrime to create files of 
         # event times -- edges detected in auxialliary files and spike times 
