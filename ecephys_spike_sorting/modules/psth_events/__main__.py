@@ -78,26 +78,35 @@ def get_psth_events(args):
             
             ex_path = os.path.join(run_fld, ex_prb_fld_name, ex_file_name)
 
+
+    ex_path_adj = ex_path[:-3] + 'adj.txt'
+    ex_path_list = [ex_path]
+    if os.path.exists(ex_path_adj):
+        ex_path_list.append(ex_path_adj)
     # the CatGT extracted edge files are a single column with </n>
     # event viewer needs .csv
-    edgeTimes = np.zeros((0), dtype='float')
-    with open(ex_path, 'r') as inFile:
-        line = inFile.readline()
-        while line != '':  # The EOF char is an empty string
-            currEdge = float(line)
-            edgeTimes = np.append(edgeTimes, currEdge)
+    for i, ex_path_i in enumerate(ex_path_list):
+        edgeTimes = np.zeros((0), dtype='float')
+        with open(ex_path_i, 'r') as inFile:
             line = inFile.readline()
+            while line != '':  # The EOF char is an empty string
+                currEdge = float(line)
+                edgeTimes = np.append(edgeTimes, currEdge)
+                line = inFile.readline()
 
-    # The output should be saved with the phy output, where the event viewer
-    # plugin can read it
+        # The output should be saved with the phy output, where the event viewer
+        # plugin can read it
 
-    phy_dir = args['directories']['kilosort_output_directory']
-    event_path = os.path.join(phy_dir, 'events.csv')
-    nEvent = len(edgeTimes)
-    with open(event_path, 'w') as outfile:
-        for i in range(0, nEvent-1):
-            outfile.write(f'{edgeTimes[i]:.6f},')
-        outfile.write(f'{edgeTimes[nEvent-1]:.6f}')
+        phy_dir = args['directories']['kilosort_output_directory']
+        if i==0:
+            event_path = os.path.join(phy_dir, 'events.csv')
+        else:
+            event_path = os.path.join(phy_dir, 'events_adj.csv')
+        nEvent = len(edgeTimes)
+        with open(event_path, 'w') as outfile:
+            for i in range(0, nEvent-1):
+                outfile.write(f'{edgeTimes[i]:.6f},')
+            outfile.write(f'{edgeTimes[nEvent-1]:.6f}')
 
     execution_time = time.time() - start
 

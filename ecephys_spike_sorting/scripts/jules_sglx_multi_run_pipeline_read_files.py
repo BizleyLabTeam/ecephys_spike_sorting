@@ -1,4 +1,5 @@
 import os
+from pathlib import Path 
 import sys
 import subprocess
 
@@ -64,16 +65,21 @@ run_specs = [
                         # ['08_03_2022_triflei_2_PM', '0', 'start,end','0',['cortex']],
                         # ['10_03_2022_Trifle_s3_AM', '0', 'start,end','0',['cortex']],
                         
-                        ['17_03_2022_Trifle_450stripe_PM_3', '0', 'start,end','0',['cortex']],
-                        ['08_03_2022_triflei_1_AM', '0', 'start,end','0',['cortex']],
-                        ['09_03_2022_trifle_2_AM', '0', 'start,end','0',['cortex']],
-                        ['10_03_2022_Trifle_s4_PM', '0', 'start,end','0',['cortex']],
-                        ['16_03_2022_Trifle_PM2', '0', 'start,end','0',['cortex']],
-                        ['17_03_2022_Trifle_450stripe_PM', '0', 'start,end','0',['cortex']],
+                        # ['17_03_2022_Trifle_450stripe_PM_3', '0', 'start,end','0',['cortex']],
+                        # ['08_03_2022_triflei_1_AM', '0', 'start,end','0',['cortex']],
+                        # ['09_03_2022_trifle_2_AM', '0', 'start,end','0',['cortex']],
+                        # ['10_03_2022_Trifle_s4_PM', '0', 'start,end','0',['cortex']],
+                        # ['16_03_2022_Trifle_PM2', '0', 'start,end','0',['cortex']],
+                        # ['17_03_2022_Trifle_450stripe_PM', '0', 'start,end','0',['cortex']],
                     
-                        ['16_03_2022_Trifle_AM2', '0', 'start,end','0',['cortex']],
+                        # ['16_03_2022_Trifle_AM2', '0', 'start,end','0',['cortex']],
                       
 ]
+
+# run on all diles in npx_directory
+for run_name in os.listdir(npx_directory):
+    run_specs.append([run_name[:-3], '0', 'start,end','0',['cortex']])
+
 
 # ------------------
 # Output destination
@@ -81,7 +87,7 @@ run_specs = [
 # Set to an existing directory; all output will be written here.
 # Output will be in the standard SpikeGLX directory structure:
 # run_folder/probe_folder/*.bin
-catGT_dest = r'/home/skgtjml/Scratch/catgt_data'
+catGT_dest = r'/home/skgtjml/Scratch/catgt_data2'
 
 # ------------
 # CatGT params
@@ -347,76 +353,91 @@ for spec in run_specs:
 
         # copy json file to data directory as record of the input parameters 
        
-        
-    # loop over probes for processing.    
-    for i, prb in enumerate(prb_list):  
-        
-        run_one_probe.runOne( session_id[i],
-                 json_directory,
-                 data_directory[i],
-                 run_CatGT,
-                 catGT_input_json[i],
-                 catGT_output_json[i],
-                 modules,
-                 module_input_json[i],
-                 logFullPath )
-                 
-        # Copy the nidq.bin file for sync pulse data
-        # NOT NEEDE WITH CORRECT -XD PARAMETERS FOR CATGT
-        #nidq_bin_file = f'{run_str}_t{prb}.nidq.bin'
-        #source_nidq_bin = os.path.join(npx_directory,run_str,nidq_bin_file)
-        #target_dir = os.path.join(catGT_dest,run_folder)
-        #subprocess.call(['cp',source_nidq_bin,target_dir])
-
-    if runTPrime:
-        # after loop over probes, run TPrime to create files of 
-        # event times -- edges detected in auxialliary files and spike times 
-        # from each probe -- all aligned to a reference stream.
     
-        # create json files for calling TPrime
-        session_id = spec[0] + '_TPrime'
-        input_json = os.path.join(json_directory, session_id + '-input.json')
-        output_json = os.path.join(json_directory, session_id + '-output.json')
-        
-        # build list of sync extractions to send to TPrime
-        im_ex_list = ''
-        for i, prb in enumerate(prb_list):
-            sync_extract = '-SY=' + prb +',-1,6,500'
-            im_ex_list = im_ex_list + ' ' + sync_extract
+    try:
+        # loop over probes for processing.    
+        for i, prb in enumerate(prb_list):  
             
-        print('im_ex_list: ' + im_ex_list)     
-        
-        info = createInputJson(input_json, npx_directory=npx_directory, 
-    	                                   continuous_file = continuous_file,
-                                           spikeGLX_data = True,
-                                           input_meta_path = input_meta_fullpath,
-                                           catGT_run_name = spec[0],
-    									   kilosort_output_directory=kilosort_output_dir,
-                                           extracted_data_directory = catGT_dest,
-                                           tPrime_im_ex_list = im_ex_list,
-                                           tPrime_ni_ex_list = ni_extract_string,
-                                           event_ex_param_str = event_ex_param_str,
-                                           sync_period = 1.0,
-                                           toStream_sync_params = toStream_sync_params,
-                                           niStream_sync_params = niStream_sync_params,
-                                           tPrime_3A = False,
-                                           toStream_path_3A = ' ',
-                                           fromStream_list_3A = list()
-                                           ) 
-        
-        command = sys.executable + " -W ignore -m ecephys_spike_sorting.modules." + 'tPrime_helper' + " --input_json " + input_json \
-    		          + " --output_json " + output_json
-        subprocess.check_call(command.split(' '))  
-    
+            run_one_probe.runOne( session_id[i],
+                    json_directory,
+                    data_directory[i],
+                    run_CatGT,
+                    catGT_input_json[i],
+                    catGT_output_json[i],
+                    modules,
+                    module_input_json[i],
+                    logFullPath )
+                    
+            # Copy the nidq.bin file for sync pulse data
+            # NOT NEEDE WITH CORRECT -XD PARAMETERS FOR CATGT
+            #nidq_bin_file = f'{run_str}_t{prb}.nidq.bin'
+            #source_nidq_bin = os.path.join(npx_directory,run_str,nidq_bin_file)
+            #target_dir = os.path.join(catGT_dest,run_folder)
+            #subprocess.call(['cp',source_nidq_bin,target_dir])
 
-    for i, prb in enumerate(prb_list):  
+        if runTPrime:
+            # after loop over probes, run TPrime to create files of 
+            # event times -- edges detected in auxialliary files and spike times 
+            # from each probe -- all aligned to a reference stream.
         
-        run_one_probe.runOne( session_id[i],
-                 json_directory,
-                 data_directory[i],
-                 False,
-                 catGT_input_json[i],
-                 catGT_output_json[i],
-                 ['psth_events'],
-                 module_input_json[i],
-                 logFullPath )
+            # create json files for calling TPrime
+            session_id = spec[0] + '_TPrime'
+            input_json = os.path.join(json_directory, session_id + '-input.json')
+            output_json = os.path.join(json_directory, session_id + '-output.json')
+            
+            # build list of sync extractions to send to TPrime
+            im_ex_list = ''
+            for i, prb in enumerate(prb_list):
+                sync_extract = '-SY=' + prb +',-1,6,500'
+                im_ex_list = im_ex_list + ' ' + sync_extract
+                
+            print('im_ex_list: ' + im_ex_list)     
+            
+            info = createInputJson(input_json, npx_directory=npx_directory, 
+                                            continuous_file = continuous_file,
+                                            spikeGLX_data = True,
+                                            input_meta_path = input_meta_fullpath,
+                                            catGT_run_name = spec[0],
+                                            kilosort_output_directory=kilosort_output_dir,
+                                            extracted_data_directory = catGT_dest,
+                                            tPrime_im_ex_list = im_ex_list,
+                                            tPrime_ni_ex_list = ni_extract_string,
+                                            event_ex_param_str = event_ex_param_str,
+                                            sync_period = 1.0,
+                                            toStream_sync_params = toStream_sync_params,
+                                            niStream_sync_params = niStream_sync_params,
+                                            tPrime_3A = False,
+                                            toStream_path_3A = ' ',
+                                            fromStream_list_3A = list()
+                                            ) 
+            
+            command = sys.executable + " -W ignore -m ecephys_spike_sorting.modules." + 'tPrime_helper' + " --input_json " + input_json \
+                        + " --output_json " + output_json
+            subprocess.check_call(command.split(' '))  
+        
+
+        for i, prb in enumerate(prb_list):  
+            
+            run_one_probe.runOne( session_id[i],
+                    json_directory,
+                    data_directory[i],
+                    False,
+                    catGT_input_json[i],
+                    catGT_output_json[i],
+                    ['psth_events'],
+                    module_input_json[i],
+                    logFullPath )
+
+    except Exception as e:
+        # Log error in a csv file
+        path = Path(catGT_dest)
+        log_error_dir = path.parent.absolute()
+        log_error_file = log_error_dir / "log_error_catGT.csv"
+
+        # Create file if not already there
+        if not log_error_file.exists():
+            with open(log_error_file, 'w') as log:
+                log.write('session_id,Error\n')
+
+        with open(log_error_file, 'a') as log:
+            log.write(f'{spec[0]},{e}\n')        

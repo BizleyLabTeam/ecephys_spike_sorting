@@ -128,7 +128,7 @@ def remove_double_counted_spikes(spike_times, spike_clusters, spike_templates,
             dist = pow( (pow(deltaX,2) + pow(deltaZ,2)), 0.5 )
             
             if idx2 > idx1 and dist < params['between_unit_dist_um']:
-                
+
                 amp1 = cluster_amplitude[unit_id1]
                 amp2 = cluster_amplitude[unit_id2]
                 
