@@ -69,7 +69,7 @@ Install the matlab engine API for python in your environment by running:
 You shouldn't see any error message or warning. If you do, check your version of setuptools.
 
 ### Installing kilosort
-You should install [Kilosort](https://github.com/MouseLand/Kilosort) same as usual (using git clone), except that the `mexGPUall.m` should be run in the no desktop version of matlab. To do this, run in your terminal `matlab -nodesktop`. Matlab should open in your terminal.
+You should install [Kilosort](https://github.com/MouseLand/Kilosort) same as usual (using git clone) and load cuda by typing `module load cuda/10.1.243/gnu-4.9.2` in your terminal. The `mexGPUall.m` should be run in the no desktop version of matlab. To do this, run in your terminal `matlab -nodesktop`. Matlab should open in your terminal.
 
 Don't forget to also clone [npy-matlab](https://github.com/kwikteam/npy-matlab) somewhere.
 
